@@ -1,7 +1,12 @@
 // leitor de qr code
 const qrcode = require('qrcode-terminal');
 const { Client, Buttons, List, MessageMedia } = require('whatsapp-web.js'); // Mudança Buttons
-const client = new Client();
+const client = new Client({
+    puppeteer: {
+        headless: true, // Executar sem interface gráfica (obrigatório no Railway)
+        args: ['--no-sandbox', '--disable-setuid-sandbox'] // Evita erros de permissão
+    }
+});
 // serviço de leitura do qr code
 client.on('qr', qr => {
     qrcode.generate(qr, {small: true});
